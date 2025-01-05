@@ -1,10 +1,10 @@
 import { Action, ActionPanel, Icon, List } from '@raycast/api';
-import React, { useState } from 'react';
-import { CollectionTree } from '../components/CollectionTree';
-import { ErrorBoundary } from '../components/ErrorBoundary';
-import { CollectionForm } from '../components/forms/CollectionForm';
-import { RequestForm } from '../components/forms/RequestForm';
-import { useCollections } from '../hooks/useCollections';
+import { useState } from 'react';
+import { CollectionTree } from './components/CollectionTree';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { CollectionForm } from './components/forms/CollectionForm';
+import { RequestForm } from './components/forms/RequestForm';
+import { useCollections } from './hooks/useCollections';
 
 export default function Command() {
   const { collections, requests, isLoading } = useCollections();

@@ -25,4 +25,5 @@ export interface BrunoResponse {
   headers: Record<string, string>;
   body: string;
   time: number;
+  variables?: Record<string, string>;
 }

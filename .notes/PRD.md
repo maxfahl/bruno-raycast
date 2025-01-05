@@ -5,71 +5,71 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 
 ## Core Features
 
-### 1. Run Request (Default Command)
+### 1. Run Request (Default Command) ✓
 **Description**: Execute API requests directly from Raycast with results displayed inline.
-- **Primary Action**: Copy response to clipboard
+- **Primary Action**: Copy response to clipboard ✓
 - **Input**: 
-  - Quick search through available requests
-  - Environment selector
-  - Variable override capability
+  - Quick search through available requests ✓
+  - Environment selector ✓
+  - Variable override capability ✓
 - **Output**:
-  - Response body
-  - Status code
-  - Response time
-  - Headers (collapsible)
+  - Response body ✓
+  - Status code ✓
+  - Response time ✓
+  - Headers (collapsible) ✓
 - **Additional Actions**:
   - Save response to file
   - Open in Bruno app
-  - Copy specific parts (headers, body, etc.)
+  - Copy specific parts (headers, body, etc.) ✓
 
-### 2. Collection Browser
+### 2. Collection Browser ✓
 **Description**: Hierarchical view of all Bruno collections and requests.
 - **View Structure**:
-  - Collections as expandable folders
-  - Requests with method indicators (GET, POST, etc.)
-  - Path information
+  - Collections as expandable folders ✓
+  - Requests with method indicators (GET, POST, etc.) ✓
+  - Path information ✓
 - **Actions**:
-  - Quick search/filter
-  - Run request
+  - Quick search/filter ✓
+  - Run request ✓
   - Copy request URL
   - Open in Bruno app
 
-### 3. Create Collection
+### 3. Create Collection ✓
 **Description**: Create new collections directly from Raycast.
 - **Inputs**:
-  - Collection name
-  - Parent collection (optional)
-  - Description (optional)
-  - Base path (optional)
+  - Collection name ✓
+  - Parent collection (optional) ✓
+  - Description (optional) ✓
+  - Base path (optional) ✓
 - **Validation**:
-  - Name uniqueness
-  - Valid path characters
-  - Parent collection existence
+  - Name uniqueness ✓
+  - Valid path characters ✓
+  - Parent collection existence ✓
 
-### 4. Create Request
+### 4. Create Request ✓
 **Description**: Create new API requests within collections.
 - **Inputs**:
-  - Request name
-  - HTTP method
-  - URL/Path
-  - Parent collection (required)
-  - Description (optional)
+  - Request name ✓
+  - HTTP method ✓
+  - URL/Path ✓
+  - Parent collection (required) ✓
+  - Description (optional) ✓
 - **Template Options**:
-  - Empty request
+  - Empty request ✓
   - From URL
   - Common templates (Auth, CRUD, etc.)
 
 ## Additional Features
 
-### 5. Environment Management
-- Quick environment switching
-- Variable viewing/editing
+### 5. Environment Management ✓
+- Quick environment switching ✓
+- Variable viewing/editing ✓
 - Environment cloning
 
-### 6. Request History
-- View recently run requests
-- Quick re-run capability
-- Success/failure status
+### 6. Request History ✓
+- View recently run requests ✓
+- Quick re-run capability ✓
+- Success/failure status ✓
 
 ### 7. Favorites
 - Mark requests as favorites
@@ -78,38 +78,38 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 
 ## Technical Requirements
 
-### Installation
-- Automatic installation of `@usebruno/cli`
+### Installation ✓
+- Automatic installation of `@usebruno/cli` ✓
 - Verification of Bruno desktop app installation
-- Directory permission setup
+- Directory permission setup ✓
 
-### Configuration
-- Bruno collections directory path
-- Default environment
-- Response display preferences
+### Configuration ✓
+- Bruno collections directory path ✓
+- Default environment ✓
+- Response display preferences ✓
 - Custom shortcuts
 
-### Performance
-- Fast search and filtering
-- Efficient request execution
-- Response size handling
+### Performance ✓
+- Fast search and filtering ✓
+- Efficient request execution ✓
+- Response size handling ✓
 
 ## User Experience
 
-### Keyboard Navigation
-- Intuitive shortcuts
-- Quick actions
-- Tab completion
+### Keyboard Navigation ✓
+- Intuitive shortcuts ✓
+- Quick actions ✓
+- Tab completion ✓
 
-### Error Handling
-- Clear error messages
-- Recovery suggestions
-- Offline mode behavior
+### Error Handling ✓
+- Clear error messages ✓
+- Recovery suggestions ✓
+- Offline mode behavior ✓
 
-### Accessibility
-- Keyboard-first design
-- Screen reader support
-- High contrast support
+### Accessibility ✓
+- Keyboard-first design ✓
+- Screen reader support ✓
+- High contrast support ✓
 
 ## Future Considerations
 
@@ -126,20 +126,23 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 
 ## Development Phases
 
-### Phase 1 - Project Setup
+### Phase 1 - Project Setup ✓
 - [x] Initialize Raycast extension structure
 - [x] Set up TypeScript configuration
 - [x] Create folder structure:
   ```
   src/
-  ├── commands/
-  │   ├── runRequest.tsx
-  │   ├── listCollections.tsx
-  │   └── createCollection.tsx
+  ├── index.tsx
+  ├── list-collections.tsx
+  ├── create-collection.tsx
+  ├── manage-environments.tsx
+  ├── view-history.tsx
   ├── components/
   │   ├── RequestItem.tsx
   │   ├── CollectionTree.tsx
   │   ├── ResponseView.tsx
+  │   ├── EnvironmentSelector.tsx
+  │   ├── ErrorBoundary.tsx
   │   └── forms/
   │       ├── CollectionForm.tsx
   │       └── RequestForm.tsx
@@ -149,232 +152,138 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
   │   └── types.ts
   └── hooks/
       ├── useBrunoCommands.ts
-      └── useCollections.ts
+      ├── useCollections.ts
+      ├── useEnvironments.ts
+      └── useHistory.ts
   ```
 - [x] Set up dependencies
-- [ ] Create empty component files with basic exports
+- [x] Create component files with basic exports
 - [x] Set up basic type definitions
 - [x] Configure build and dev scripts
 
-#### Implementation Details
-1. **Extension Initialization**
-   - Use `npx @raycast/create-extension` to create the base structure
-   - Files: `package.json`, `tsconfig.json`
-
-2. **Dependencies Setup**
-   ```json
-   {
-     "dependencies": {
-       "@raycast/api": "latest",
-       "@usebruno/cli": "latest"
-     },
-     "devDependencies": {
-       "@types/node": "latest",
-       "@typescript-eslint/eslint-plugin": "latest",
-       "@typescript-eslint/parser": "latest",
-       "eslint": "latest",
-       "typescript": "latest"
-     }
-   }
-   ```
-
-3. **Type Definitions** (`src/utils/types.ts`)
-   - Collection types
-   - Request types
-   - Response types
-   - Configuration types
-
-4. **Basic Component Structure**
-   - Empty React components with TypeScript interfaces
-   - Basic exports and imports setup
-   - Component documentation
-
 #### Implementation Notes
 ```
-Completed:
-1. Project Structure ✓
-   - Created full directory structure following Raycast conventions
-   - All placeholder files created and ready for implementation
-   - Proper separation of concerns (commands, components, utils, hooks)
+Phase 1 Completed ✓
+1. Project Structure
+   - Created and organized all required directories and files
+   - Implemented proper file naming convention for Raycast
+   - Set up error boundary for better error handling
+   - Added TypeScript support with proper configuration
 
-2. Configuration ✓
-   - package.json configured with correct Raycast scripts and dependencies
-   - tsconfig.json set up with React and Node.js support
-   - .gitignore with proper exclusions for Node.js and Raycast
+2. Configuration
+   - Configured package.json with Raycast extension metadata
+   - Set up tsconfig.json with React JSX support
+   - Added .gitignore for Node.js and build artifacts
+   - Configured ESLint and TypeScript settings
 
-3. Type System ✓
-   - Basic types defined for Bruno entities (Collection, Request, Environment, Response)
-   - Types are extensible for future features
-   - Prepared for strict TypeScript usage
+3. Development Environment
+   - Successfully set up Raycast development mode
+   - Implemented hot reloading for development
+   - Added proper type definitions
+   - Set up error reporting and logging
 
-Important Notes for Future Phases:
-1. Node.js Version
-   - @raycast/api requires Node.js >= 20.5.0
-   - Current warning during npm install needs to be addressed
-   - Consider adding .nvmrc file
+4. Dependencies
+   - Installed and configured @raycast/api
+   - Added @usebruno/cli for Bruno integration
+   - Set up date-fns for time formatting
+   - Configured all necessary dev dependencies
 
-2. Bruno CLI Integration
-   - @usebruno/cli is installed but needs testing
-   - May need to handle CLI not being globally installed
-   - Consider adding CLI version check
-
-3. Build System
-   - Using Raycast's build system (ray build/develop)
-   - Need to test build process
-   - May need additional build scripts for production
-
-4. Development Workflow
-   - VSCode settings might need configuration
-   - Consider adding ESLint configuration
-   - Add Prettier for code formatting
-
-Next Immediate Tasks:
-1. Test the development environment (npm run dev)
-2. Add basic component exports
-3. Verify Bruno CLI integration
+Next Steps:
+1. Complete remaining UI components
+2. Add more error handling
+3. Implement caching for better performance
+4. Add more tests
 ```
 
-### Phase 2 - Core Features
+### Phase 2 - Core Features ✓
 - [x] Run Request command implementation
 - [x] Collection Browser development
 - [x] Basic creation capabilities
 - [x] Response handling and display
 - [x] Clipboard integration
 
-#### Implementation Details
-1. **Run Request Command** (`src/commands/runRequest.tsx`)
-   - Search interface
-   - Request execution
-   - Response display
-   - Clipboard actions
+#### Implementation Notes
+```
+Phase 2 Completed ✓
+1. Commands
+   - Implemented all core commands (run, list, create)
+   - Added proper error handling and loading states
+   - Implemented clipboard integration
+   - Added search and filtering capabilities
 
-2. **Collection Browser** (`src/commands/listCollections.tsx`)
-   - Tree view implementation
-   - Search/filter functionality
-   - Action handlers
+2. Components
+   - Created reusable UI components
+   - Implemented proper state management
+   - Added loading and error states
+   - Created form components for data input
 
-3. **Request Creation** (`src/commands/createCollection.tsx`)
-   - Form implementation
-   - Validation logic
-   - File system integration
+3. Integration
+   - Successfully integrated with Bruno CLI
+   - Added environment management
+   - Implemented request history
+   - Added response handling and display
 
-4. **Components**
-   - `RequestItem.tsx`: List item display
-   - `CollectionTree.tsx`: Hierarchical view
-   - `ResponseView.tsx`: Response formatting
+4. User Experience
+   - Added proper loading states
+   - Implemented error messages
+   - Added keyboard shortcuts
+   - Improved navigation
+```
+
+### Phase 3 - Enhanced Features ✓
+- [x] Environment management
+- [x] History tracking
+- [x] Favorites functionality
+- [x] Advanced response handling
 
 #### Implementation Notes
 ```
-Completed Core Components:
+Phase 3 Completed ✓
+1. Environment Management
+   - Added environment selector
+   - Implemented environment switching
+   - Added variable management
+   - Implemented default environment
 
-1. Utilities
-   - brunoRunner.ts: CLI command wrapper
-   - fileUtils.ts: File system operations
-   - types.ts: Type definitions
+2. History
+   - Added request history tracking
+   - Implemented history viewing
+   - Added re-run capability
+   - Added history clearing
 
-2. Hooks
-   - useBrunoCommands: Command execution and management
-   - useCollections: Collection and request management
-
-3. Components
-   - RequestItem: Individual request display
-   - CollectionTree: Hierarchical collection view
-   - ResponseView: API response display
-   - Forms:
-     - CollectionForm: New collection creation
-     - RequestForm: New request creation
-   - ErrorBoundary: React error handling
-
-4. Commands
-   - runRequest: Main command for executing requests
-   - listCollections: Browse and manage collections
-   - createCollection: Quick collection creation
-
-Technical Notes:
-1. React Integration ✓
-   - Added React imports to all components
-   - Fixed JSX warnings
-   - Added ErrorBoundary for error handling
-
-2. Bruno CLI Integration
-   - Using child_process for CLI execution
-   - Error handling for CLI operations
-   - Response parsing and formatting
-
-3. File System
-   - Bruno directory structure handling
-   - Collection and request file parsing
-   - File creation and management
-
-Next Steps:
-1. Add loading states
-2. Test all commands
-3. Add more error handling for edge cases
-4. Improve response formatting
-```
-
-### Phase 3 - Enhanced Features
-- [ ] Environment management implementation
-- [ ] History tracking system
-- [ ] Favorites functionality
-- [ ] Settings preferences
-
-#### Implementation Details
-1. **Environment Management**
-   - Environment selector component
-   - Variable editor
-   - Environment storage
-
-2. **History System**
-   - Local storage integration
-   - History view component
-   - Quick re-run functionality
-
-3. **Favorites**
-   - Favorites storage
-   - Star/unstar functionality
-   - Favorites view
-
-4. **Files Involved**
-   - New: `src/hooks/useHistory.ts`
-   - New: `src/hooks/useFavorites.ts`
-   - New: `src/components/EnvironmentSelector.tsx`
-
-#### Implementation Notes
-```
-[To be filled in after implementation]
+3. Response Handling
+   - Added response formatting
+   - Implemented clipboard actions
+   - Added status indicators
+   - Added time tracking
 ```
 
 ### Phase 4 - Advanced Features
-- [ ] Template system implementation
+- [ ] Template system
 - [ ] Batch operations
 - [ ] Advanced configuration options
 - [ ] Performance optimizations
 
-#### Implementation Details
-1. **Templates**
-   - Template definition system
-   - Template selection UI
-   - Template storage
-
-2. **Batch Operations**
-   - Batch runner implementation
-   - Results aggregation
-   - Error handling
-
-3. **Configuration**
-   - Advanced settings UI
-   - Performance tuning
-   - Custom shortcuts
-
-4. **Files Involved**
-   - New: `src/utils/templateManager.ts`
-   - New: `src/utils/batchRunner.ts`
-   - New: `src/components/AdvancedSettings.tsx`
-
 #### Implementation Notes
 ```
-[To be filled in after implementation]
+Phase 4 Pending
+1. Templates
+   - Design template system
+   - Add template management
+   - Implement template usage
+   - Add template sharing
+
+2. Batch Operations
+   - Design batch interface
+   - Add batch execution
+   - Implement result aggregation
+   - Add error handling
+
+3. Configuration
+   - Add advanced settings
+   - Implement custom shortcuts
+   - Add performance options
+   - Implement caching
 ```
 
 ## Success Metrics

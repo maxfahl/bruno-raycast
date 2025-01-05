@@ -1,30 +1,74 @@
 {
+  "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "raycast-bruno",
+  "title": "Bruno API Client",
   "version": "1.0.0",
   "description": "Bruno API Client extension for Raycast",
-  "main": "dist/index.js",
+  "icon": "command-icon.png",
+  "author": "maxfahl",
+  "categories": [
+    "Developer Tools",
+    "Applications"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "index",
+      "title": "Run Request",
+      "description": "Run a Bruno API request",
+      "mode": "view"
+    },
+    {
+      "name": "list-collections",
+      "title": "List Collections",
+      "description": "Browse Bruno collections and requests",
+      "mode": "view"
+    },
+    {
+      "name": "create-collection",
+      "title": "Create Collection",
+      "description": "Create a new Bruno collection",
+      "mode": "view"
+    },
+    {
+      "name": "manage-environments",
+      "title": "Manage Environments",
+      "description": "Manage Bruno environments",
+      "mode": "view"
+    },
+    {
+      "name": "view-history",
+      "title": "View History",
+      "description": "View request history",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "brunoPath",
+      "type": "textfield",
+      "required": false,
+      "title": "Bruno Path",
+      "description": "Path to Bruno installation directory",
+      "placeholder": "/path/to/bruno"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.88.4",
+    "@types/date-fns": "^2.6.0",
+    "@usebruno/cli": "latest",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "typescript": "^5.0.0"
+  },
   "scripts": {
     "build": "ray build -e dist",
     "dev": "ray develop",
     "lint": "ray lint"
-  },
-  "keywords": [
-    "raycast",
-    "bruno",
-    "api",
-    "client"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@raycast/api": "latest",
-    "@usebruno/cli": "latest"
-  },
-  "devDependencies": {
-    "@types/node": "latest",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
-    "eslint": "latest",
-    "typescript": "latest"
   }
 }
