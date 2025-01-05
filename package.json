@@ -13,13 +13,13 @@
   "license": "MIT",
   "preferences": [
     {
-      "name": "brunoPath",
+      "name": "workspacePath",
       "type": "textfield",
-      "required": false,
-      "default": "/usr/local/bin/bru",
-      "title": "Bruno CLI Path",
-      "description": "Full path to the Bruno CLI executable (bru). Leave empty to use the system PATH.",
-      "placeholder": "/path/to/bru"
+      "required": true,
+      "title": "Bruno Workspace Path",
+      "description": "Full path to your Bruno workspace directory where your collections are stored. Default is ~/.bruno",
+      "default": "~/.bruno",
+      "placeholder": "/path/to/your/bruno/workspace"
     }
   ],
   "commands": [

@@ -45,10 +45,18 @@ function buildCollectionTree(
 export function CollectionTree({ collections, requests, onRequestSelect }: CollectionTreeProps) {
   const tree = buildCollectionTree(collections, requests);
 
-  function renderCollection(node: CollectionNode): ReactElement {
-    return (
-      <>
-        <List.Section key={node.name} title={node.name}>
+  if (tree.length === 0) {
+    return <List.EmptyView title="No Collections" description="No collections found in the workspace." />;
+  }
+
+  // Flatten the tree into sections
+  const sections: ReactElement[] = [];
+  
+  function addNodeToSections(node: CollectionNode, level = 0) {
+    // Add this node's requests as a section
+    if (node.requests.length > 0) {
+      sections.push(
+        <List.Section key={node.name} title={`${node.name} (${node.requests.length})`}>
           {node.requests.map(request => (
             <RequestItem
               key={request.name}
@@ -57,14 +65,15 @@ export function CollectionTree({ collections, requests, onRequestSelect }: Colle
             />
           ))}
         </List.Section>
-        {node.children.map(renderCollection)}
-      </>
-    );
+      );
+    }
+
+    // Process children
+    node.children.forEach(child => addNodeToSections(child, level + 1));
   }
 
-  return (
-    <>
-      {tree.map(renderCollection)}
-    </>
-  );
+  // Process each root node
+  tree.forEach(node => addNodeToSections(node));
+
+  return <>{sections}</>;
 }
