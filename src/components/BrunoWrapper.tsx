@@ -1,7 +1,10 @@
 import { Action, ActionPanel, Detail } from "@raycast/api";
 import { FC, PropsWithChildren, useEffect, useState } from "react";
-import { runBrunoCommand } from "../utils/brunoRunner";
+import { checkBrunoInstallation } from "../utils/brunoRunner";
 import { ErrorBoundary } from "./ErrorBoundary";
+
+// Shared state for CLI availability
+let globalCheckPromise: Promise<boolean> | null = null;
 
 export const BrunoWrapper: FC<PropsWithChildren> = ({ children }) => {
   const [isBrunoAvailable, setIsBrunoAvailable] = useState<boolean | null>(null);
@@ -10,15 +13,20 @@ export const BrunoWrapper: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const check = async () => {
       try {
-        // Try to run bru --version to check if it's available
-        await runBrunoCommand('version', []);
-        console.log('BrunoWrapper: CLI availability check result: true');
-        setIsBrunoAvailable(true);
+        // Use or create the global promise
+        if (!globalCheckPromise) {
+          globalCheckPromise = checkBrunoInstallation();
+        }
+        const isAvailable = await globalCheckPromise;
+        console.log('BrunoWrapper: CLI availability check result:', isAvailable);
+        setIsBrunoAvailable(isAvailable);
         setError(null);
       } catch (e) {
         console.error('BrunoWrapper: Error checking CLI:', e);
         setIsBrunoAvailable(false);
         setError(e instanceof Error ? e.message : 'Unknown error');
+        // Reset the promise on error
+        globalCheckPromise = null;
       }
     };
     check();
