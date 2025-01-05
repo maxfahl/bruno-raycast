@@ -127,9 +127,9 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 ## Development Phases
 
 ### Phase 1 - Project Setup
-- [ ] Initialize Raycast extension structure
-- [ ] Set up TypeScript configuration
-- [ ] Create folder structure:
+- [x] Initialize Raycast extension structure
+- [x] Set up TypeScript configuration
+- [x] Create folder structure:
   ```
   src/
   ├── commands/
@@ -151,10 +151,10 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
       ├── useBrunoCommands.ts
       └── useCollections.ts
   ```
-- [ ] Set up dependencies
+- [x] Set up dependencies
 - [ ] Create empty component files with basic exports
-- [ ] Set up basic type definitions
-- [ ] Configure build and dev scripts
+- [x] Set up basic type definitions
+- [x] Configure build and dev scripts
 
 #### Implementation Details
 1. **Extension Initialization**
@@ -191,15 +191,55 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 
 #### Implementation Notes
 ```
-[To be filled in after implementation]
+Completed:
+1. Project Structure ✓
+   - Created full directory structure following Raycast conventions
+   - All placeholder files created and ready for implementation
+   - Proper separation of concerns (commands, components, utils, hooks)
+
+2. Configuration ✓
+   - package.json configured with correct Raycast scripts and dependencies
+   - tsconfig.json set up with React and Node.js support
+   - .gitignore with proper exclusions for Node.js and Raycast
+
+3. Type System ✓
+   - Basic types defined for Bruno entities (Collection, Request, Environment, Response)
+   - Types are extensible for future features
+   - Prepared for strict TypeScript usage
+
+Important Notes for Future Phases:
+1. Node.js Version
+   - @raycast/api requires Node.js >= 20.5.0
+   - Current warning during npm install needs to be addressed
+   - Consider adding .nvmrc file
+
+2. Bruno CLI Integration
+   - @usebruno/cli is installed but needs testing
+   - May need to handle CLI not being globally installed
+   - Consider adding CLI version check
+
+3. Build System
+   - Using Raycast's build system (ray build/develop)
+   - Need to test build process
+   - May need additional build scripts for production
+
+4. Development Workflow
+   - VSCode settings might need configuration
+   - Consider adding ESLint configuration
+   - Add Prettier for code formatting
+
+Next Immediate Tasks:
+1. Test the development environment (npm run dev)
+2. Add basic component exports
+3. Verify Bruno CLI integration
 ```
 
 ### Phase 2 - Core Features
-- [ ] Run Request command implementation
-- [ ] Collection Browser development
-- [ ] Basic creation capabilities
-- [ ] Response handling and display
-- [ ] Clipboard integration
+- [x] Run Request command implementation
+- [x] Collection Browser development
+- [x] Basic creation capabilities
+- [x] Response handling and display
+- [x] Clipboard integration
 
 #### Implementation Details
 1. **Run Request Command** (`src/commands/runRequest.tsx`)
@@ -225,7 +265,52 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 
 #### Implementation Notes
 ```
-[To be filled in after implementation]
+Completed Core Components:
+
+1. Utilities
+   - brunoRunner.ts: CLI command wrapper
+   - fileUtils.ts: File system operations
+   - types.ts: Type definitions
+
+2. Hooks
+   - useBrunoCommands: Command execution and management
+   - useCollections: Collection and request management
+
+3. Components
+   - RequestItem: Individual request display
+   - CollectionTree: Hierarchical collection view
+   - ResponseView: API response display
+   - Forms:
+     - CollectionForm: New collection creation
+     - RequestForm: New request creation
+
+4. Commands
+   - runRequest: Main command for executing requests
+   - listCollections: Browse and manage collections
+   - createCollection: Quick collection creation
+
+Technical Notes:
+1. React Integration
+   - Need to fix React import warnings
+   - Component hierarchy established
+   - State management through hooks
+
+2. Bruno CLI Integration
+   - Using child_process for CLI execution
+   - Error handling for CLI operations
+   - Response parsing and formatting
+
+3. File System
+   - Bruno directory structure handling
+   - Collection and request file parsing
+   - File creation and management
+
+Next Steps:
+1. Fix React import warnings
+2. Add error boundaries
+3. Improve response handling
+4. Add loading states
+5. Test all commands
 ```
 
 ### Phase 3 - Enhanced Features

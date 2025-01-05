@@ -1,0 +1,30 @@
+{
+  "name": "raycast-bruno",
+  "version": "1.0.0",
+  "description": "Bruno API Client extension for Raycast",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "lint": "ray lint"
+  },
+  "keywords": [
+    "raycast",
+    "bruno",
+    "api",
+    "client"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@raycast/api": "latest",
+    "@usebruno/cli": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "typescript": "latest"
+  }
+}
