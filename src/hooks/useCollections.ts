@@ -1,6 +1,6 @@
 import { showToast, Toast } from '@raycast/api';
 import { useCallback, useEffect, useState } from 'react';
-import { findBrunoFiles, parseCollectionFile, parseRequestFile } from '../utils/fileUtils';
+import { listCollections, listRequests } from '../utils/brunoRunner';
 import { BrunoCollection, BrunoRequest } from '../utils/types';
 
 interface CollectionsState {
@@ -21,24 +21,10 @@ export function useCollections() {
   const loadCollections = useCallback(async () => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     try {
-      const files = await findBrunoFiles();
-      const collections: BrunoCollection[] = [];
-      const requests: BrunoRequest[] = [];
-
-      for (const file of files) {
-        try {
-          if (file.endsWith('.bru')) {
-            const content = await parseRequestFile(file);
-            if (content.method) {
-              requests.push(content);
-            } else {
-              collections.push(await parseCollectionFile(file));
-            }
-          }
-        } catch (error) {
-          console.error(`Error processing file ${file}:`, error);
-        }
-      }
+      const [collections, requests] = await Promise.all([
+        listCollections(),
+        listRequests()
+      ]);
 
       setState({
         collections,
@@ -65,18 +51,18 @@ export function useCollections() {
     loadCollections();
   }, [loadCollections]);
 
-  const getRequestsByCollection = useCallback((collectionPath: string) => {
-    return state.requests.filter(request => request.collection === collectionPath);
+  const getRequestsByCollection = useCallback((collectionName: string) => {
+    return state.requests.filter(request => request.collection === collectionName);
   }, [state.requests]);
 
-  const getCollectionByPath = useCallback((path: string) => {
-    return state.collections.find(collection => collection.path === path);
+  const getCollectionByName = useCallback((name: string) => {
+    return state.collections.find(collection => collection.name === name);
   }, [state.collections]);
 
   return {
     ...state,
     refresh: loadCollections,
     getRequestsByCollection,
-    getCollectionByPath,
+    getCollectionByName,
   };
 }

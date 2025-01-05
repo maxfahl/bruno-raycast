@@ -11,6 +11,17 @@
     "Applications"
   ],
   "license": "MIT",
+  "preferences": [
+    {
+      "name": "brunoPath",
+      "type": "textfield",
+      "required": false,
+      "default": "/usr/local/bin/bru",
+      "title": "Bruno CLI Path",
+      "description": "Full path to the Bruno CLI executable (bru). Leave empty to use the system PATH.",
+      "placeholder": "/path/to/bru"
+    }
+  ],
   "commands": [
     {
       "name": "index",
@@ -41,16 +52,6 @@
       "title": "View History",
       "description": "View request history",
       "mode": "view"
-    }
-  ],
-  "preferences": [
-    {
-      "name": "brunoPath",
-      "type": "textfield",
-      "required": false,
-      "title": "Bruno Path",
-      "description": "Path to Bruno installation directory",
-      "placeholder": "/path/to/bruno"
     }
   ],
   "dependencies": {

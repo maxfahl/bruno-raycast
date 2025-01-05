@@ -8,8 +8,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** Bruno Path - Path to Bruno installation directory */
-  "brunoPath"?: string
+  /** Bruno CLI Path - Full path to the Bruno CLI executable (bru). Leave empty to use the system PATH. */
+  "brunoPath": string
 }
 
 /** Preferences accessible in all the extension's commands */

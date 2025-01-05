@@ -1,8 +1,8 @@
 import { Clipboard, List, showToast, Toast } from '@raycast/api';
 import { useEffect, useState } from 'react';
+import { BrunoWrapper } from './components/BrunoWrapper';
 import { CollectionTree } from './components/CollectionTree';
 import { EnvironmentSelector } from './components/EnvironmentSelector';
-import { ErrorBoundary } from './components/ErrorBoundary';
 import { ResponseView } from './components/ResponseView';
 import { useBrunoCommands } from './hooks/useBrunoCommands';
 import { useCollections } from './hooks/useCollections';
@@ -37,7 +37,7 @@ export default function Command() {
   async function handleRequestSelect(request: BrunoRequest) {
     try {
       const result = await executeRequest(
-        request.path,
+        request.requestId,
         selectedEnvironment?.name,
         selectedEnvironment?.variables
       );
@@ -81,7 +81,7 @@ export default function Command() {
 
   if (showEnvironmentSelector) {
     return (
-      <ErrorBoundary>
+      <BrunoWrapper>
         <EnvironmentSelector
           selectedEnvironment={selectedEnvironment?.name}
           onSelect={(env) => {
@@ -89,23 +89,23 @@ export default function Command() {
             setShowEnvironmentSelector(false);
           }}
         />
-      </ErrorBoundary>
+      </BrunoWrapper>
     );
   }
 
   if (selectedRequest && response) {
     return (
-      <ErrorBoundary>
+      <BrunoWrapper>
         <ResponseView
           response={response}
           onCopy={() => Clipboard.copy(JSON.stringify(response.body, null, 2))}
         />
-      </ErrorBoundary>
+      </BrunoWrapper>
     );
   }
 
   return (
-    <ErrorBoundary>
+    <BrunoWrapper>
       <List
         isLoading={isLoading}
         onSearchTextChange={setSearchText}
@@ -129,6 +129,6 @@ export default function Command() {
           onRequestSelect={handleRequestSelect}
         />
       </List>
-    </ErrorBoundary>
+    </BrunoWrapper>
   );
 }

@@ -1,77 +1,85 @@
+import { getPreferenceValues } from '@raycast/api';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { BrunoResponse } from './types';
 
 const execAsync = promisify(exec);
 
+interface Preferences {
+  brunoPath?: string;
+}
+
+export async function runBrunoCommand(command: string, args: string[] = []): Promise<string> {
+  const preferences = getPreferenceValues<Preferences>();
+  const bruPath = preferences.brunoPath || '/usr/local/bin/bru';
+
+  try {
+    const { stdout } = await execAsync(`${bruPath} ${args.join(' ')}`, {
+      env: process.env,
+      shell: process.env.SHELL
+    });
+    return stdout.trim();
+  } catch (error) {
+    console.error(`Failed to run Bruno command: ${command}`, error);
+    throw error;
+  }
+}
+
 export async function runBrunoRequest(
-  requestPath: string,
+  requestId: string,
   env?: string,
   variables?: Record<string, string>
 ): Promise<BrunoResponse> {
   try {
-    let command = `bru run "${requestPath}"`;
-    
+    const args = ['run', `"${requestId}"`];
     if (env) {
-      command += ` --env ${env}`;
+      args.push('--env', env);
     }
-
     if (variables) {
-      Object.entries(variables).forEach(([key, value]) => {
-        command += ` --env-var ${key}=${value}`;
-      });
+      args.push('--vars', JSON.stringify(variables));
     }
 
-    const startTime = Date.now();
-    const { stdout, stderr } = await execAsync(command);
-    const endTime = Date.now();
-
-    if (stderr) {
-      throw new Error(stderr);
-    }
-
-    const response = JSON.parse(stdout);
-    return {
-      ...response,
-      time: endTime - startTime,
-    };
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to run Bruno request: ${error.message}`);
-    }
-    throw new Error('Failed to run Bruno request: Unknown error');
+    const output = await runBrunoCommand('run', args);
+    return JSON.parse(output);
+  } catch (error) {
+    throw new Error(`Failed to run request: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
-export async function listCollections(directory: string): Promise<string[]> {
+export async function listCollections(): Promise<any[]> {
   try {
-    const { stdout } = await execAsync(`find "${directory}" -name "*.bru" -type f`);
-    return stdout.split('\n').filter(Boolean);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to list collections: ${error.message}`);
-    }
-    throw new Error('Failed to list collections: Unknown error');
+    const output = await runBrunoCommand('collections', ['list', '--json']);
+    return JSON.parse(output);
+  } catch (error) {
+    throw new Error(`Failed to list collections: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+export async function listRequests(): Promise<any[]> {
+  try {
+    const output = await runBrunoCommand('requests', ['list', '--json']);
+    return JSON.parse(output);
+  } catch (error) {
+    throw new Error(`Failed to list requests: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
 export async function createCollection(
   name: string,
-  path: string,
+  parent?: string,
   description?: string
 ): Promise<void> {
   try {
-    const command = `mkdir -p "${path}" && touch "${path}/${name}.bru"`;
-    await execAsync(command);
-    
+    const args = ['collection', 'create', name];
+    if (parent) {
+      args.push('--parent', parent);
+    }
     if (description) {
-      await execAsync(`echo "# ${description}" > "${path}/${name}.bru"`);
+      args.push('--description', description);
     }
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to create collection: ${error.message}`);
-    }
-    throw new Error('Failed to create collection: Unknown error');
+    await runBrunoCommand('create', args);
+  } catch (error) {
+    throw new Error(`Failed to create collection: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
@@ -79,29 +87,16 @@ export async function createRequest(
   name: string,
   method: string,
   url: string,
-  collectionPath: string,
+  collection: string,
   description?: string
 ): Promise<void> {
   try {
-    const requestContent = `# ${description || name}
-meta {
-  name: ${name}
-  type: http
-  seq: 1
-}
-
-${method} ${url}
-
-headers {
-  Content-Type: application/json
-}
-`;
-    
-    await execAsync(`echo '${requestContent}' > "${collectionPath}/${name}.bru"`);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to create request: ${error.message}`);
+    const args = ['request', 'create', name, '--method', method, '--url', url, '--collection', collection];
+    if (description) {
+      args.push('--description', description);
     }
-    throw new Error('Failed to create request: Unknown error');
+    await runBrunoCommand('create', args);
+  } catch (error) {
+    throw new Error(`Failed to create request: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }

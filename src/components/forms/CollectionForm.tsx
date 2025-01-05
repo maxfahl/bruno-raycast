@@ -1,8 +1,6 @@
 import { Action, ActionPanel, Form, useNavigation } from '@raycast/api';
-import { join } from 'path';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useBrunoCommands } from '../../hooks/useBrunoCommands';
-import { getBrunoDirectory } from '../../utils/fileUtils';
 
 interface CollectionFormValues {
   name: string;
@@ -17,14 +15,9 @@ export function CollectionForm() {
 
   async function handleSubmit(values: CollectionFormValues) {
     try {
-      const brunoDir = await getBrunoDirectory();
-      const collectionPath = values.parent
-        ? join(brunoDir, values.parent)
-        : brunoDir;
-
       await createNewCollection(
         values.name,
-        collectionPath,
+        values.parent || '',
         values.description
       );
       
@@ -60,7 +53,7 @@ export function CollectionForm() {
       <Form.TextField
         id="parent"
         title="Parent Collection"
-        placeholder="Enter parent collection path (optional)"
+        placeholder="Enter parent collection name (optional)"
       />
     </Form>
   );

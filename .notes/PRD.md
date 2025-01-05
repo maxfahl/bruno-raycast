@@ -1,12 +1,12 @@
 # Bruno for Raycast - Product Requirements Document
 
 ## Overview
-Bruno for Raycast is an extension that enables users to interact with Bruno API Client directly from Raycast. It provides quick access to running API requests, managing collections, and creating new requests without leaving Raycast.
+Bruno for Raycast is an extension that enables users to interact with Bruno API Client directly from Raycast through the Bruno CLI. The extension acts as a Raycast interface to the Bruno CLI, providing quick access to running API requests, managing collections, and creating new requests without leaving Raycast.
 
 ## Core Features
 
 ### 1. Run Request (Default Command) ✓
-**Description**: Execute API requests directly from Raycast with results displayed inline.
+**Description**: Execute API requests directly from Raycast using the Bruno CLI.
 - **Primary Action**: Copy response to clipboard ✓
 - **Input**: 
   - Quick search through available requests ✓
@@ -23,7 +23,7 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
   - Copy specific parts (headers, body, etc.) ✓
 
 ### 2. Collection Browser ✓
-**Description**: Hierarchical view of all Bruno collections and requests.
+**Description**: Hierarchical view of all Bruno collections and requests using the CLI.
 - **View Structure**:
   - Collections as expandable folders ✓
   - Requests with method indicators (GET, POST, etc.) ✓
@@ -35,19 +35,18 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
   - Open in Bruno app
 
 ### 3. Create Collection ✓
-**Description**: Create new collections directly from Raycast.
+**Description**: Create new collections directly from Raycast using the Bruno CLI.
 - **Inputs**:
   - Collection name ✓
   - Parent collection (optional) ✓
   - Description (optional) ✓
-  - Base path (optional) ✓
 - **Validation**:
   - Name uniqueness ✓
   - Valid path characters ✓
   - Parent collection existence ✓
 
 ### 4. Create Request ✓
-**Description**: Create new API requests within collections.
+**Description**: Create new API requests within collections using the Bruno CLI.
 - **Inputs**:
   - Request name ✓
   - HTTP method ✓
@@ -62,9 +61,9 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 ## Additional Features
 
 ### 5. Environment Management ✓
-- Quick environment switching ✓
-- Variable viewing/editing ✓
-- Environment cloning
+- Quick environment switching via CLI ✓
+- Variable viewing/editing via CLI ✓
+- Environment cloning via CLI
 
 ### 6. Request History ✓
 - View recently run requests ✓
@@ -80,11 +79,9 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 
 ### Installation ✓
 - Automatic installation of `@usebruno/cli` ✓
-- Verification of Bruno desktop app installation
-- Directory permission setup ✓
+- Verification of Bruno CLI installation ✓
 
 ### Configuration ✓
-- Bruno collections directory path ✓
 - Default environment ✓
 - Response display preferences ✓
 - Custom shortcuts
@@ -93,6 +90,30 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
 - Fast search and filtering ✓
 - Efficient request execution ✓
 - Response size handling ✓
+
+## Implementation Guidelines
+
+### CLI-First Approach
+1. All operations MUST use the Bruno CLI
+2. No direct file system operations
+3. No path management or directory handling
+4. Let Bruno CLI manage its own file structure
+5. Use CLI commands for:
+   - Running requests
+   - Managing collections
+   - Creating requests
+   - Environment management
+   - Variable handling
+
+### Error Handling
+1. Parse and handle CLI errors appropriately
+2. Provide meaningful error messages from CLI output
+3. Handle CLI command failures gracefully
+
+### State Management
+1. Use CLI for data retrieval
+2. Cache CLI responses when appropriate
+3. Maintain minimal local state
 
 ## User Experience
 
@@ -148,7 +169,6 @@ Bruno for Raycast is an extension that enables users to interact with Bruno API 
   │       └── RequestForm.tsx
   ├── utils/
   │   ├── brunoRunner.ts
-  │   ├── fileUtils.ts
   │   └── types.ts
   └── hooks/
       ├── useBrunoCommands.ts

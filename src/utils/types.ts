@@ -1,6 +1,5 @@
 export interface BrunoCollection {
   name: string;
-  path: string;
   description?: string;
   parent?: string;
 }
@@ -9,9 +8,9 @@ export interface BrunoRequest {
   name: string;
   method: string;
   url: string;
-  path: string;
   collection: string;
   description?: string;
+  requestId: string;
 }
 
 export interface BrunoEnvironment {

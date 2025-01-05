@@ -1,13 +1,12 @@
-import { Action, ActionPanel, Icon, List } from '@raycast/api';
+import { List } from '@raycast/api';
 import { useState } from 'react';
+import { BrunoWrapper } from './components/BrunoWrapper';
 import { CollectionTree } from './components/CollectionTree';
-import { ErrorBoundary } from './components/ErrorBoundary';
-import { CollectionForm } from './components/forms/CollectionForm';
-import { RequestForm } from './components/forms/RequestForm';
 import { useCollections } from './hooks/useCollections';
+import { BrunoRequest } from './utils/types';
 
 export default function Command() {
-  const { collections, requests, isLoading } = useCollections();
+  const { collections, requests, isLoading, error } = useCollections();
   const [searchText, setSearchText] = useState('');
 
   const filteredRequests = searchText
@@ -23,33 +22,23 @@ export default function Command() {
       )
     : collections;
 
+  const handleRequestSelect = (request: BrunoRequest) => {
+    // Handle request selection
+  };
+
   return (
-    <ErrorBoundary>
+    <BrunoWrapper error={error}>
       <List
         isLoading={isLoading}
         onSearchTextChange={setSearchText}
         searchBarPlaceholder="Search collections and requests..."
-        actions={
-          <ActionPanel>
-            <Action.Push
-              icon={Icon.Plus}
-              title="New Collection"
-              target={<CollectionForm />}
-            />
-            <Action.Push
-              icon={Icon.Plus}
-              title="New Request"
-              target={<RequestForm />}
-            />
-          </ActionPanel>
-        }
       >
         <CollectionTree
           collections={filteredCollections}
           requests={filteredRequests}
-          onRequestSelect={() => {}}
+          onRequestSelect={handleRequestSelect}
         />
       </List>
-    </ErrorBoundary>
+    </BrunoWrapper>
   );
 }

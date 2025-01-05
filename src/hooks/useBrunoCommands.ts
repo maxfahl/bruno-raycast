@@ -8,13 +8,13 @@ export function useBrunoCommands() {
   const [response, setResponse] = useState<BrunoResponse | null>(null);
 
   const executeRequest = useCallback(async (
-    requestPath: string,
+    requestId: string,
     env?: string,
     variables?: Record<string, string>
   ) => {
     setIsLoading(true);
     try {
-      const result = await runBrunoRequest(requestPath, env, variables);
+      const result = await runBrunoRequest(requestId, env, variables);
       setResponse(result);
       return result;
     } catch (error) {
@@ -33,12 +33,12 @@ export function useBrunoCommands() {
     name: string,
     method: string,
     url: string,
-    collectionPath: string,
+    collection: string,
     description?: string
   ) => {
     setIsLoading(true);
     try {
-      await createRequest(name, method, url, collectionPath, description);
+      await createRequest(name, method, url, collection, description);
       await showToast({
         style: Toast.Style.Success,
         title: 'Request created',
@@ -58,12 +58,12 @@ export function useBrunoCommands() {
 
   const createNewCollection = useCallback(async (
     name: string,
-    path: string,
+    parent?: string,
     description?: string
   ) => {
     setIsLoading(true);
     try {
-      await createCollection(name, path, description);
+      await createCollection(name, parent, description);
       await showToast({
         style: Toast.Style.Success,
         title: 'Collection created',

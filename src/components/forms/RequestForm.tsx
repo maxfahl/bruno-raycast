@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Form, useNavigation } from '@raycast/api';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useBrunoCommands } from '../../hooks/useBrunoCommands';
 import { useCollections } from '../../hooks/useCollections';
 
@@ -70,8 +70,8 @@ export function RequestForm() {
       <Form.Dropdown id="collection" title="Collection">
         {collections.map(collection => (
           <Form.Dropdown.Item
-            key={collection.path}
-            value={collection.path}
+            key={collection.name}
+            value={collection.name}
             title={collection.name}
           />
         ))}

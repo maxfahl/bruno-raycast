@@ -1,7 +1,7 @@
 import { Action, ActionPanel, Icon, List } from '@raycast/api';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
-import { ErrorBoundary } from './components/ErrorBoundary';
+import { BrunoWrapper } from './components/BrunoWrapper';
 import { ResponseView } from './components/ResponseView';
 import { useBrunoCommands } from './hooks/useBrunoCommands';
 import { useHistory } from './hooks/useHistory';
@@ -14,7 +14,7 @@ export default function Command() {
   async function handleRerun(entry: typeof history[0]) {
     try {
       const response = await executeRequest(
-        entry.request.path,
+        entry.request.requestId,
         entry.environment,
         entry.environment ? entry.response.variables : undefined
       );
@@ -30,17 +30,17 @@ export default function Command() {
 
   if (selectedEntry) {
     return (
-      <ErrorBoundary>
+      <BrunoWrapper>
         <ResponseView
           response={selectedEntry.response}
           onCopy={() => {}}
         />
-      </ErrorBoundary>
+      </BrunoWrapper>
     );
   }
 
   return (
-    <ErrorBoundary>
+    <BrunoWrapper>
       <List
         isLoading={isLoading}
         searchBarPlaceholder="Search history..."
@@ -93,6 +93,6 @@ export default function Command() {
           />
         ))}
       </List>
-    </ErrorBoundary>
+    </BrunoWrapper>
   );
 } 

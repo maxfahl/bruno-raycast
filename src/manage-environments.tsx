@@ -1,12 +1,10 @@
 import { Action, ActionPanel, Detail, Icon, List } from '@raycast/api';
 import { useState } from 'react';
-import { ErrorBoundary } from './components/ErrorBoundary';
+import { BrunoWrapper } from './components/BrunoWrapper';
 import { useEnvironments } from './hooks/useEnvironments';
 import { BrunoEnvironment } from './utils/types';
 
 function EnvironmentDetail({ environment }: { environment: BrunoEnvironment }) {
-  const variables = Object.entries(environment.variables);
-
   return (
     <Detail
       markdown={`# ${environment.name}
@@ -20,7 +18,7 @@ ${JSON.stringify(environment.variables, null, 2)}
         <Detail.Metadata>
           <Detail.Metadata.Label
             title="Variables"
-            text={variables.length.toString()}
+            text={Object.keys(environment.variables).length.toString()}
           />
         </Detail.Metadata>
       }
@@ -34,14 +32,14 @@ export default function Command() {
 
   if (selectedEnvironment) {
     return (
-      <ErrorBoundary>
+      <BrunoWrapper>
         <EnvironmentDetail environment={selectedEnvironment} />
-      </ErrorBoundary>
+      </BrunoWrapper>
     );
   }
 
   return (
-    <ErrorBoundary>
+    <BrunoWrapper>
       <List
         isLoading={isLoading}
         searchBarPlaceholder="Search environments..."
@@ -67,6 +65,6 @@ export default function Command() {
           />
         ))}
       </List>
-    </ErrorBoundary>
+    </BrunoWrapper>
   );
 } 

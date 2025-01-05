@@ -1,5 +1,5 @@
 import { List } from '@raycast/api';
-import React from 'react';
+import { ReactElement } from 'react';
 import { BrunoCollection, BrunoRequest } from '../utils/types';
 import { RequestItem } from './RequestItem';
 
@@ -45,24 +45,26 @@ function buildCollectionTree(
 export function CollectionTree({ collections, requests, onRequestSelect }: CollectionTreeProps) {
   const tree = buildCollectionTree(collections, requests);
 
-  function renderCollection(node: CollectionNode) {
+  function renderCollection(node: CollectionNode): ReactElement {
     return (
-      <List.Section key={node.path} title={node.name}>
-        {node.requests.map(request => (
-          <RequestItem
-            key={request.path}
-            request={request}
-            onAction={() => onRequestSelect(request)}
-          />
-        ))}
+      <>
+        <List.Section key={node.name} title={node.name}>
+          {node.requests.map(request => (
+            <RequestItem
+              key={request.name}
+              request={request}
+              onAction={() => onRequestSelect(request)}
+            />
+          ))}
+        </List.Section>
         {node.children.map(renderCollection)}
-      </List.Section>
+      </>
     );
   }
 
   return (
-    <List>
+    <>
       {tree.map(renderCollection)}
-    </List>
+    </>
   );
 }
