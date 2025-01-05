@@ -35,8 +35,11 @@ export async function runBrunoRequest(
       ...response,
       time: endTime - startTime,
     };
-  } catch (error) {
-    throw new Error(`Failed to run Bruno request: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to run Bruno request: ${error.message}`);
+    }
+    throw new Error('Failed to run Bruno request: Unknown error');
   }
 }
 
@@ -44,8 +47,11 @@ export async function listCollections(directory: string): Promise<string[]> {
   try {
     const { stdout } = await execAsync(`find "${directory}" -name "*.bru" -type f`);
     return stdout.split('\n').filter(Boolean);
-  } catch (error) {
-    throw new Error(`Failed to list collections: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to list collections: ${error.message}`);
+    }
+    throw new Error('Failed to list collections: Unknown error');
   }
 }
 
@@ -61,8 +67,11 @@ export async function createCollection(
     if (description) {
       await execAsync(`echo "# ${description}" > "${path}/${name}.bru"`);
     }
-  } catch (error) {
-    throw new Error(`Failed to create collection: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to create collection: ${error.message}`);
+    }
+    throw new Error('Failed to create collection: Unknown error');
   }
 }
 
@@ -89,7 +98,10 @@ headers {
 `;
     
     await execAsync(`echo '${requestContent}' > "${collectionPath}/${name}.bru"`);
-  } catch (error) {
-    throw new Error(`Failed to create request: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to create request: ${error.message}`);
+    }
+    throw new Error('Failed to create request: Unknown error');
   }
 }

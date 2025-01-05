@@ -1,4 +1,5 @@
 import { Action, ActionPanel, Color, Detail, Icon } from '@raycast/api';
+import React from 'react';
 import { BrunoResponse } from '../utils/types';
 
 interface ResponseViewProps {

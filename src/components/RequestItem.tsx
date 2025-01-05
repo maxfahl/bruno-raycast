@@ -1,4 +1,4 @@
-import { Color, Icon, List } from '@raycast/api';
+import { Action, ActionPanel, Color, Icon, List } from '@raycast/api';
 import React from 'react';
 import { BrunoRequest } from '../utils/types';
 
@@ -30,11 +30,13 @@ export function RequestItem({ request, onAction }: RequestItemProps) {
       ]}
       actions={
         onAction
-          ? <List.Item.Action
-              title="Run Request"
-              icon={Icon.Terminal}
-              onAction={onAction}
-            />
+          ? <ActionPanel>
+              <Action
+                title="Run Request"
+                icon={Icon.Terminal}
+                onAction={onAction}
+              />
+            </ActionPanel>
           : undefined
       }
     />
